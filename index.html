@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crocodile Fun Facts</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Inline CSS (merged from styles.css) -->
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #e8f5e9;
+            background-image: url('https://images.unsplash.com/photo-1581223684472-3e7c0679f2c1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-blend-mode: overlay;
+            color: #2e7d32;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Container Styles */
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 100, 0, 0.2);
+            padding: 30px;
+            margin-top: 50px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Header Styles */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .header::after {
+            content: '';
+            display: block;
+            width: 80%;
+            height: 2px;
+            background: linear-gradient(to right, transparent, #2e7d32, transparent);
+            margin: 10px auto;
+        }
+
+        h1 {
+            color: #1b5e20;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        /* Name Input Section */
+        .name-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        input[type="text"] {
+            padding: 10px 15px;
+            border: 2px solid #81c784;
+            border-radius: 30px;
+            font-size: 1rem;
+            width: 70%;
+            max-width: 300px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            border-color: #2e7d32;
+            box-shadow: 0 0 10px rgba(46, 125, 50, 0.3);
+        }
+
+        button {
+            background-color: #2e7d32;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 12px 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        button:hover {
+            background-color: #1b5e20;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Greeting Section */
+        .greeting {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.5rem;
+            color: #2e7d32;
+            display: none;
+        }
+
+        /* Fact Display Section */
+        .fact-section {
+            text-align: center;
+            margin-bottom: 30px;
+            display: none;
+        }
+
+        .fact-container {
+            background-color: rgba(129, 199, 132, 0.2);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            position: relative;
+            border-left: 5px solid #2e7d32;
+            text-align: left;
+        }
+
+        .fact-container::before {
+            content: '🐊';
+            font-size: 2rem;
+            position: absolute;
+            top: -15px;
+            left: -15px;
+        }
+
+        #fact-display {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            color: #1b5e20;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        #fact-display.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Social Share Section */
+        .social-share {
+            margin-top: 20px;
+            text-align: center;
+            display: none;
+        }
+
+        .share-icons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .share-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .share-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .twitter {
+            background-color: #1DA1F2;
+        }
+
+        .instagram {
+            background: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D);
+        }
+
+        .whatsapp {
+            background-color: #25D366;
+        }
+
+        /* Decorative Elements */
+        .decoration {
+            position: absolute;
+            z-index: -1;
+            opacity: 0.1;
+        }
+
+        .decoration.tree {
+            width: 150px;
+            height: 200px;
+            background-color: #2e7d32;
+            clip-path: polygon(50% 0%, 80% 50%, 100% 25%, 100% 100%, 0 100%, 0 25%, 20% 50%);
+            top: -100px;
+            right: -50px;
+            transform: rotate(45deg);
+        }
+
+        .decoration.water {
+            width: 300px;
+            height: 80px;
+            background-color: #0277bd;
+            border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+            bottom: -40px;
+            left: -100px;
+            transform: rotate(-10deg);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin-top: 30px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .fact-container {
+                padding: 15px;
+            }
+
+            #fact-display {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+                margin-top: 20px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            input[type="text"] {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Decorative elements -->
+        <div class="decoration tree"></div>
+        <div class="decoration water"></div>
+
+        <!-- Header -->
+        <div class="header">
+            <h1>Crocodile Fun Facts</h1>
+            <p>Learn amazing facts about these ancient reptiles</p>
+        </div>
+
+        <!-- Name Input Section -->
+        <div class="name-section">
+            <input type="text" id="name-input" placeholder="Enter your name">
+            <button id="submit-name">Let's Begin!</button>
+        </div>
+
+        <!-- Greeting Section -->
+        <div class="greeting" id="greeting-section">
+            <p id="greeting-text"></p>
+        </div>
+
+        <!-- Fact Display Section -->
+        <div class="fact-section" id="fact-section">
+            <button id="new-fact-btn">Show Me Another Fact!</button>
+            <div class="fact-container">
+                <p id="fact-display"></p>
+            </div>
+        </div>
+
+        <!-- Social Share Section -->
+        <div class="social-share" id="social-share">
+            <h3>Share this fact:</h3>
+            <div class="share-icons">
+                <a href="#" class="share-btn twitter" title="Share on Twitter" target="_blank">
+                    <i class="fa fa-twitter"></i>
+                </a>
+                <a href="#" class="share-btn instagram" title="Share on Instagram">
+                    <i class="fa fa-instagram"></i>
+                </a>
+                <a href="#" class="share-btn whatsapp" title="Share on WhatsApp" target="_blank">
+                    <i class="fa fa-whatsapp"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Inline JavaScript (merged from script.js) -->
+    <script>
+        // Array of crocodile facts
+        const crocodileFacts = [
+            "Crocodiles can live up to 70-100 years in the wild, making them one of the longest-living reptiles.",
+            "Crocodiles have the strongest bite force of any animal, measuring up to 3,700 pounds per square inch (PSI).",
+            "A crocodile can hold its breath underwater for up to 2 hours when resting.",
+            "Crocodiles swallow stones to help with digestion and to act as ballast for better buoyancy control.",
+            "Crocodiles cannot stick out their tongues as they are attached to the bottom of their mouths.",
+            "Despite their size, crocodiles can reach speeds of 12-14 mph (20-22 km/h) in short bursts on land.",
+            "Crocodiles have special glands in their tongues that can expel excess salt, allowing some species to survive in saltwater.",
+            "Baby crocodiles can make sounds from inside their eggs before hatching to alert their mother.",
+            "The gender of crocodile hatchlings is determined by the temperature during incubation, not by genetics.",
+            "Crocodiles have transparent third eyelids that protect their eyes while underwater.",
+            "Crocodiles are more closely related to birds than to most reptiles, including lizards and snakes.",
+            "Crocodiles have incredibly sensitive sensory dots around their jaws that can detect tiny pressure changes in water.",
+            "Crocodiles can go through 4,000 teeth in their lifetime as they continuously grow new ones.",
+            "Some crocodile species can jump up to 5 feet out of the water using their powerful tails.",
+            "Crocodiles are one of the few reptiles that exhibit parental care, with mothers guarding their nests and carrying hatchlings to water."
+        ];
+
+        // Track displayed facts to prevent repetition
+        let displayedFacts = [];
+        let currentFact = "";
+        let userName = "";
+
+        // DOM Elements
+        const nameInput = document.getElementById('name-input');
+        const submitNameBtn = document.getElementById('submit-name');
+        const greetingSection = document.getElementById('greeting-section');
+        const greetingText = document.getElementById('greeting-text');
+        const factSection = document.getElementById('fact-section');
+        const factDisplay = document.getElementById('fact-display');
+        const newFactBtn = document.getElementById('new-fact-btn');
+        const socialShare = document.getElementById('social-share');
+
+        // Get time-based greeting
+        function getGreeting() {
+            const hour = new Date().getHours();
+            if (hour < 12) return "Good Morning";
+            if (hour < 18) return "Good Afternoon";
+            return "Good Evening";
+        }
+
+        // Get a random fact that hasn't been shown yet
+        function getRandomFact() {
+            // If all facts have been displayed, reset the tracking array
+            if (displayedFacts.length === crocodileFacts.length) {
+                displayedFacts = [];
+            }
+
+            // Filter out facts that have already been shown
+            const availableFacts = crocodileFacts.filter(fact => !displayedFacts.includes(fact));
+            
+            // Get a random fact from available facts
+            const randomIndex = Math.floor(Math.random() * availableFacts.length);
+            const selectedFact = availableFacts[randomIndex];
+            
+            // Add the selected fact to the displayed facts array
+            displayedFacts.push(selectedFact);
+            
+            return selectedFact;
+        }
+
+        // Display a random fact with animation
+        function displayRandomFact() {
+            factDisplay.classList.remove('show');
+            
+            setTimeout(() => {
+                currentFact = getRandomFact();
+                factDisplay.textContent = currentFact;
+                factDisplay.classList.add('show');
+                
+                // Update share links
+                updateShareLinks(currentFact);
+            }, 500);
+        }
+
+        // Update social media share links
+        function updateShareLinks(fact) {
+            // Encode the fact for URLs
+            const encodedFact = encodeURIComponent(`${fact} #CrocodileFacts`);
+            
+            // Twitter share link
+            document.querySelector('.share-btn.twitter').href = 
+                `https://twitter.com/intent/tweet?text=${encodedFact}`;
+            
+            // WhatsApp share link
+            document.querySelector('.share-btn.whatsapp').href = 
+                `https://api.whatsapp.com/send?text=${encodedFact}`;
+            
+            // Instagram doesn't have a direct sharing API
+            document.querySelector('.share-btn.instagram').addEventListener('click', function(e) {
+                e.preventDefault();
+                alert('Instagram does not support direct sharing. Copy the fact and open Instagram to share!');
+            });
+        }
+
+        // Event Listeners
+        submitNameBtn.addEventListener('click', function() {
+            userName = nameInput.value.trim();
+            
+            if (userName) {
+                // Hide name input section
+                document.querySelector('.name-section').style.display = 'none';
+                
+                // Show greeting with name
+                greetingText.textContent = `${getGreeting()}, ${userName}! Here are some fascinating crocodile facts for you.`;
+                greetingSection.style.display = 'block';
+                
+                // Show fact section and social share
+                factSection.style.display = 'block';
+                socialShare.style.display = 'block';
+                
+                // Display first random fact
+                displayRandomFact();
+            } else {
+                alert('Please enter your name to continue!');
+            }
+        });
+
+        // Also allow pressing Enter to submit name
+        nameInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                submitNameBtn.click();
+            }
+        });
+
+        // New fact button click event
+        newFactBtn.addEventListener('click', displayRandomFact);
+    </script>
+</body>
+</html>
